@@ -19,8 +19,6 @@ package org.wildfly.plugins.bootablejar.maven.goals;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.regex.Matcher;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -66,7 +64,7 @@ public final class DevBootableJarMojo extends AbstractBuildBootableJarMojo {
     }
 
     private void configureScanner(Path deployments, List<String> commands) {
-        String deploymentPath = deployments.toString().replaceAll("\\x5c", Matcher.quoteReplacement("\\\\"));
+        String deploymentPath = deployments.toString().replace("\\", "\\\\");
         commands.add("/subsystem=deployment-scanner/scanner=" + DEPLOYMENT_SCANNER_NAME + ":add(scan-interval=1000,auto-deploy-exploded=false,"
                 + "path=\"" + deploymentPath + "\")");
     }
